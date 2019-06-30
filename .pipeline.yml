@@ -1,0 +1,21 @@
+name: pipeline2
+stages:
+- name: clone
+  steps:
+  - sourceCodeConfig:
+      branch: master
+      branchCondition: only
+      sourceCodeCredentialId: user-rhjq4:cluster-5kdkp-github-tfiduccia
+      url: https://github.com/tfiduccia/pipeline-example.git
+- name: build
+  steps:
+  - runScriptConfig:
+      image: node:latest
+      isShell: true
+      shellScript: ./build.js
+- name: publish
+  steps:
+  - publishImageConfig:
+      buildContext: .
+      dockerfilePath: ./Dockerfile
+      tag: tfiduccia/pipeline-example:latest
